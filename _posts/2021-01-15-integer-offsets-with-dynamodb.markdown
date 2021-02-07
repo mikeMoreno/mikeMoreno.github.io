@@ -1,4 +1,4 @@
-Recently my company decided to use DynamoDB for its data storage needs. DynamoDB is a NoSQL database and lacks many of the features that one would find in a relational database. One such feature is integer-based offsets.
+Recently my company decided to use [DynamoDB](https://aws.amazon.com/dynamodb/) for its data storage needs. DynamoDB is a [NoSQL](https://en.wikipedia.org/wiki/NoSQL) database and lacks many of the features that one would find in a relational database. One such feature is integer-based offsets.
 DynamoDB provides no way to do what would otherwise be a simple query in SQL Server:
 
 ```
@@ -10,7 +10,7 @@ FETCH NEXT 25 ROWS ONLY
 ```
 
 Paging is possible in DynamoDB, but instead of using integers, it uses values.
-What this means is when DynamoDB returns the results of your query, it also returns a LastEvaluatedKey, which you then send back as the ExclusiveStartKey the next time you reissue your query. This process continues until the LastEvaluatedKey returned is null. At that point, there are no more items in the database that match your query. Along with your query, you send a limit. The limit specifies the maximum number of items for DynamoDB to return. Every time you reissue your query, DynamoDB will return at most the number of items specified in your limit, but it may return less.
+What this means is when DynamoDB returns the results of your query, it also returns a `LastEvaluatedKey`, which you then send back as the `ExclusiveStartKey` the next time you reissue your query. This process continues until the LastEvaluatedKey returned is null. At that point, there are no more items in the database that match your query. Along with your query, you send a limit. The limit specifies the maximum number of items for DynamoDB to return. Every time you reissue your query, DynamoDB will return at most the number of items specified in your limit, but it may return less.
 This is all well and good if you can get away with value-based paging, but it was a problem for us because we needed to make DynamoDB work with integer-based offsets for reasons.
 We did this by adding a layer of abstraction that converts an integer-based paging scheme to DynamoDB's value-based paging scheme. The layer sits between DynamoDB and our code that needs to query data.
 The way it works is we use the concept of a "cursor". We create a cursor for each query that is sent to DynamoDB, and this cursor keeps track of the last place a particular query left off in the database, in other words, the LastEvaluatedKey. You can think of a cursor like a bookmark.
