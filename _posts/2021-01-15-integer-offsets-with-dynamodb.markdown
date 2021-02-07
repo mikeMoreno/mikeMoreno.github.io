@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "Integer Offsets with DynamoDB"
+date:   2021-01-15
+categories: dynamodb nosql
+---
+
 Recently my company decided to use [DynamoDB](https://aws.amazon.com/dynamodb/) for its data storage needs. DynamoDB is a [NoSQL](https://en.wikipedia.org/wiki/NoSQL) database and lacks many of the features that one would find in a relational database. One such feature is integer-based offsets.
 
 
