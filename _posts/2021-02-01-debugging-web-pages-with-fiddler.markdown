@@ -21,7 +21,7 @@ address, and it will respond with our HTML file. Our file will be a copy of exam
 Our rule will look like this (make sure to check all the required boxes):
 
 
-![alt text](~/images/examples/debugging-web-pages-with-fiddler/our-rule.png "Logo Title Text 1")
+![our rule](https://github.com/mikeMoreno/mikeMoreno.github.io/blob/master/images/examples/debugging-web-pages-with-fiddler/our-rule.png "Our Rule")
 
 
 After the rule is enabled and we visit example.com, we should see that our HTML file has been supplied,
