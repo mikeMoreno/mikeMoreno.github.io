@@ -18,10 +18,10 @@ Paging is possible in DynamoDB, but instead of using integers, it uses values.
 
 
 What this means is when DynamoDB returns the results of your query, it also returns a `LastEvaluatedKey`, which you then send back as
-the `ExclusiveStartKey` the next time you reissue your query. This process continues until the LastEvaluatedKey
+the `ExclusiveStartKey` the next time you reissue your query. This process continues until the `LastEvaluatedKey`
 returned is null. At that point, there are no more items in the database that match your query.
-Along with your query, you send a limit. The limit specifies the maximum number of items for DynamoDB to return.
-Every time you reissue your query, DynamoDB will return at most the number of items specified in your limit, *but it may return less*.
+Along with your query, you send a `limit`. The limit specifies the maximum number of items for DynamoDB to return.
+Every time you reissue your query, DynamoDB will return at most the number of items specified in your limit, **but it may return less**.
 
 
 This is all well and good if you can get away with value-based paging, but it was a problem for us because we needed
@@ -33,7 +33,7 @@ The layer sits between DynamoDB and our code that needs to query data.
 
 
 The way it works is we use the concept of a "cursor". We create a cursor for each query that is sent to DynamoDB,
-and this cursor keeps track of the last place a particular query left off in the database, in other words, the LastEvaluatedKey.
+and this cursor keeps track of the last place a particular query left off in the database, in other words, the `LastEvaluatedKey`.
 You can think of a cursor like a bookmark.
 
 
@@ -53,17 +53,17 @@ with the `LastEvaluatedKey` and return the results.
 
 If the offset is greater than 0, we value-page through items DynamoDB returns until we've reached the user's offset.
 All of the items we page through before the offset we discard. We then reissue the query until we reach the user's limit.
-We then set a cursor at that location with the LastEvaluatedKey and return the results as before.
+We then set a cursor at that location with the `LastEvaluatedKey` and return the results as before.
 
 
 When the user sends a query that we have a cursor for, we simply set the cursor's `LastEvaluatedKey` to the query's
-`ExclusiveStartKey` and query DynamoDB until we reach the user's limit, set another cursor with the new LastEvaluatedKey
+`ExclusiveStartKey` and query DynamoDB until we reach the user's limit, set another cursor with the new `LastEvaluatedKey`
 and return the results.
 
 
 The cursor is just another DynamoDB item. The Partition Key of the cursor is a hash made up of the user's query and
 the limit + offset values. We call the limit + offset the cursor's index. Attributes on the cursor store the
-LastEvaluatedKey, if one was returned.
+`LastEvaluatedKey`, if one was returned.
 
 
 This scheme is completely transparent to the user, who never needs to know about DynamoDB's value-based paging.
