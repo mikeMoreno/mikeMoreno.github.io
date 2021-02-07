@@ -21,11 +21,18 @@ address, and it will respond with our HTML file. Our file will be a copy of exam
 Our rule will look like this (make sure to check all the required boxes):
 
 
-![our rule](https://raw.githubusercontent.com/mikeMoreno/mikeMoreno.github.io/master/images/examples/debugging-web-pages-with-fiddler/our-rule.png "Our Rule")
+![our rule](https://raw.githubusercontent.com/mikeMoreno/mikeMoreno.github.io/master/images/examples/debugging-web-pages-with-fiddler/our-rule.png "Our rule")
+
+
 
 
 After the rule is enabled and we visit example.com, we should see that our HTML file has been supplied,
 instead of the real example.com file:
+
+
+![changed background color](https://raw.githubusercontent.com/mikeMoreno/mikeMoreno.github.io/master/images/examples/debugging-web-pages-with-fiddler/changed-color.png "The background color has changed!")
+
+
 
 
 The AutoResponder can also be used to supply JavaScript files. It’s a great tool in any web developer’s toolkit.
