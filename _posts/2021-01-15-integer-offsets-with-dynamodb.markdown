@@ -1,5 +1,9 @@
 Recently my company decided to use [DynamoDB](https://aws.amazon.com/dynamodb/) for its data storage needs. DynamoDB is a [NoSQL](https://en.wikipedia.org/wiki/NoSQL) database and lacks many of the features that one would find in a relational database. One such feature is integer-based offsets.
+
+
 DynamoDB provides no way to do what would otherwise be a simple query in SQL Server:
+
+
 
 ```
 SELECT *
@@ -8,6 +12,7 @@ ORDER BY column_name
 OFFSET 25 ROWS
 FETCH NEXT 25 ROWS ONLY
 ```
+
 
 Paging is possible in DynamoDB, but instead of using integers, it uses values.
 What this means is when DynamoDB returns the results of your query, it also returns a `LastEvaluatedKey`, which you then send back as the `ExclusiveStartKey` the next time you reissue your query. This process continues until the LastEvaluatedKey returned is null. At that point, there are no more items in the database that match your query. Along with your query, you send a limit. The limit specifies the maximum number of items for DynamoDB to return. Every time you reissue your query, DynamoDB will return at most the number of items specified in your limit, but it may return less.
